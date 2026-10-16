@@ -43,7 +43,7 @@ cp .env.example .env        # optional; defaults work without it
 python app.py
 ```
 
-Open http://127.0.0.1:5000. The first analysis downloads the models (a few hundred MB), so it takes a minute. Audio formats other than WAV need `ffmpeg` (`brew install ffmpeg`).
+Open http://127.0.0.1:5001. The first analysis downloads the models (a few hundred MB), so it takes a minute. Audio analysis (including WAV) needs `ffmpeg` (`brew install ffmpeg`).
 
 ## Tests
 

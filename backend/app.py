@@ -331,7 +331,7 @@ def classify_audio(model_id: str, raw: bytes, content_type: str, ext: str) -> li
     try:
         return _normalize(classifier(raw, top_k=5))
     except Exception:
-        raise UserError("Could not decode that audio. Install ffmpeg, or try a .wav file.", 422)
+        raise UserError("Could not decode that audio. Install ffmpeg (brew install ffmpeg) and try again.", 422)
 
 
 # ---------------------------------------------------------------------------
@@ -496,6 +496,6 @@ def security_headers(resp):
 if __name__ == "__main__":
     app.run(
         host=os.getenv("HOST", "127.0.0.1"),
-        port=_env_int("PORT", 5000),
+        port=_env_int("PORT", 5001),
         debug=os.getenv("FLASK_DEBUG", "0") == "1",
     )
