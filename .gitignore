@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets
+.env
+*.env
+!.env.example
+
+# Local leftovers
+*.bak
+backend/package-lock.json
+test_image.png
+
+# OS / editor
+.DS_Store
+.vscode/
+dist/
+build/
+node_modules/

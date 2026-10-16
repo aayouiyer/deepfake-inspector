@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deepfake Inspector</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container-fluid main-container d-flex flex-column">
+    <header class="topbar d-flex justify-content-center align-items-center px-4 py-3">
+      <h1><i class="fas fa-shield-halved me-2"></i>Deepfake Inspector</h1>
+    </header>
+
+    <main class="content-wrapper flex-grow-1 d-flex align-items-center justify-content-center">
+      <div id="upload-view" class="w-100">
+        <div class="row justify-content-center g-0">
+          <div class="col-12 col-md-10 col-lg-8">
+            <div class="card upload-card mx-auto">
+              <div class="card-body text-center p-4 p-md-5">
+                <h2 class="mb-3">Is this real?</h2>
+                <p class="lead mb-4">Check an image or voice clip for signs of AI generation or manipulation.</p>
+
+                <nav class="nav nav-tabs justify-content-center mb-4" role="tablist">
+                  <button class="nav-link active" type="button" role="tab" data-mode="analyze" aria-selected="true">Deepfake check</button>
+                  <button class="nav-link" type="button" role="tab" data-mode="analyze-image" aria-selected="false">Full image report</button>
+                  <button class="nav-link" type="button" role="tab" data-mode="classify-image" aria-selected="false">What's in the image</button>
+                </nav>
+                <p id="mode-hint" class="small text-muted mb-3">Images are checked for deepfakes. Audio is checked for voice spoofing.</p>
+
+                <div class="drop-zone mb-3 mx-auto" id="drop-zone" tabindex="0" role="button" aria-label="Choose a file">
+                  <div class="drop-content">
+                    <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                    <p id="drop-label" class="mb-0">Drop a file here or click to choose</p>
+                  </div>
+                  <input type="file" id="file-input" accept="image/*,audio/*">
+                </div>
+
+                <button id="btn-upload" class="btn btn-primary btn-lg w-100 mb-3" type="button">
+                  <i class="fas fa-magnifying-glass me-2"></i>Analyze file
+                </button>
+
+                <div class="or-divider my-3"><span>OR</span></div>
+
+                <form id="url-form" class="input-group mb-1 w-100 mx-auto">
+                  <input type="url" id="url-input" class="form-control form-control-lg" placeholder="Paste a public image or audio URL" required>
+                  <button id="btn-url" class="btn btn-outline-primary" type="submit">Analyze URL</button>
+                </form>
+                <p class="small text-muted mt-2 mb-0">Max 15 MB. Files are processed in memory and not stored.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="results-view" class="w-100 d-none">
+        <div class="row justify-content-center g-0">
+          <div class="col-12 col-md-10 col-lg-8">
+            <div class="card result-card mx-auto">
+              <div class="card-body p-4 p-md-5">
+                <h2 class="mb-4">Result</h2>
+
+                <div id="verdict-card" class="verdict mb-4 d-none">
+                  <div class="verdict-head">
+                    <i id="verdict-icon" class="fas fa-circle-question"></i>
+                    <span id="verdict-title">Inconclusive</span>
+                  </div>
+                  <p id="verdict-summary" class="mb-3"></p>
+                  <div class="confidence">
+                    <div class="d-flex justify-content-between small mb-1">
+                      <span>Confidence</span><span id="confidence-text">0%</span>
+                    </div>
+                    <div class="confidence-track"><div id="confidence-fill" class="confidence-fill"></div></div>
+                  </div>
+                </div>
+
+                <div id="labels-block" class="mb-4 d-none">
+                  <h3 id="labels-title" class="h6 text-muted text-uppercase mb-2">Top labels</h3>
+                  <ul id="labels-list" class="list-group"></ul>
+                </div>
+
+                <div id="error-block" class="alert alert-danger d-none" role="alert"></div>
+
+                <details class="mb-4">
+                  <summary>Raw response</summary>
+                  <pre id="raw-output" class="code p-3 mt-2 rounded"></pre>
+                </details>
+
+                <div class="text-center">
+                  <button id="btn-try-again" class="btn btn-primary btn-lg" type="button">
+                    <i class="fas fa-redo me-2"></i>Check another
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="d-flex justify-content-between align-items-center p-3 mt-auto">
+      <button id="btn-health" class="btn btn-outline-primary" type="button">
+        <i class="fas fa-heartbeat me-2"></i>Server status
+      </button>
+      <span id="health-status" class="badge bg-secondary">unknown</span>
+      <button id="btn-copy" class="btn btn-outline-primary" type="button">
+        <i class="fas fa-copy me-2"></i>Copy result
+      </button>
+    </footer>
+  </div>
+
+  <div id="toast-area" class="toast-area" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
